@@ -161,3 +161,4 @@ window.addEventListener("keydown", e => {
             break;
     }
 })
+console.log("komal");
