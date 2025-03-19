@@ -6,7 +6,7 @@ const gameOverSound = new Audio("../music/gameover.mp3");
 const moveSound = new Audio("../music/move.mp3");
 const musicSound = new Audio("../music/music.mp3");
 lastPaintTime = 0;
-let speed = 10;
+let speed = 5;
 let snakeArr = [
     {
         x: 13,
@@ -42,7 +42,6 @@ function isCollide(snake) {
         return true;
     }
 }
-
 function gameEngine() {
     // part 1 update the snake array
     if (isCollide(snakeArr)) {
