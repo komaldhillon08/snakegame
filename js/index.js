@@ -62,8 +62,6 @@ function gameEngine() {
             hiscoreVal = score
             localStorage.setItem("hiscore", JSON.stringify(hiscoreVal))
             hiscorebox.innerHTML = "Hiscore : " + hiscoreVal
-
-
         }
         scorebox.innerHTML = "Score :" + score
 
@@ -115,20 +113,25 @@ function gameEngine() {
 
 // MAIN LOGIC STRATS HERE 
 let hiscore = localStorage.getItem("hiscore");
+
 if (hiscore === null) {
-    hiscoreVal = 0;
-    localStorage.setItem("hiscore", JSON.stringify(hiscoreVal))
+    console.log(hiscore);  // This logs 'null' if there's no hiscore in localStorage
+    
+    let hiscoreVal = 0;
+    localStorage.setItem("hiscore", JSON.stringify(hiscoreVal));
+} else {
+    let hiscoreVal = JSON.parse(hiscore);  // Parse the stored hiscore value
+    hiscorebox.innerHTML = "Hiscore : " + hiscoreVal;  // Use hiscoreVal here instead of hiscore
 }
-else {
-    hiscoreVal = JSON.parse(hiscore);
-    hiscorebox.innerHTML = "Hiscore : " + hiscore
-}
+
+
 window.requestAnimationFrame(main);
 window.addEventListener("keydown", e => {
     inputDir = {
         x: 0,
         y: 1
     }
+    
     moveSound.play();
     switch (e.key) {
         case "ArrowUp":
