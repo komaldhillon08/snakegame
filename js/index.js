@@ -1,12 +1,13 @@
 // Game constants
-let diration = { x: 0, y: 0 };
+// first step
+let inputDir = { x: 0, y: 0 };
 const foodSound = new Audio("../music/food.mp3");
 const gameOverSound = new Audio("../music/gameover.mp3");
 const moveSound = new Audio("../music/move.mp3");
 const musicSound = new Audio("../music/music.mp3");
 lastPaintTime = 0;
-let speed = 2;
-let skaneArr = [
+let speed = 5;
+let snakeArr = [
     {
         x: 13,
         y: 15
@@ -16,7 +17,7 @@ food = {
     x: 6,
     y: 7
 }
-
+let score = 0;
 
 // GAME FUNCTION 
 function main(ctime) {
@@ -26,17 +27,54 @@ function main(ctime) {
         return;
     }
     lastPaintTime = ctime
-    gameEngine()
+    gameEngine();
+}
 
+
+function isCollide(snake) {
+    for (let i = 0; i < i.length; i++) {
+        if (snake[i].x === snake[i].x && snake[i].y === snake[i].y) {
+            return true;
+        }
+    }
+    // if you bump into yhe wall 
+    if (snake[0].x >= 18 || snake[0].x <= 0 &&  snake[0].y >= 18 || snake[0].y <= 0) {
+        return true ; 
+    }
 }
 
 function gameEngine() {
     // part 1 update the snake array
+    if (isCollide(snakeArr)) {
+        gameOverSound.play();
+        musicSound.pause();
+        inputDir = { x: 0, y: 0 };
+        alert("Game Over . Press Any Key To Play again!")
+        snakeArr = [{ x: 13, y: 15 }];
+        musicSound.play();
+        score = 0;
+
+    }
+    // if you can eat the food increment the score and regenerate the food 
+    if (snakeArr[0].y === food.y && snakeArr[0].x === food.x) {
+        foodSound.play();
+        snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
+        let a = 2;
+        let b = 16;
+        food = { x: Math.round(a + (a - b) * Math.random()), y: Math.round(a + (a - b) * Math.random()) }
+    }
+
+    // moving the snake 
+    for (let i = snakeArr.length - 2; i >= 0; i--) {
+        snakeArr[i + 1] = { ...snakeArr[i] };
+
+    }
+    snakeArr[0].x += inputDir.x;
+    snakeArr[0].y += inputDir.y;
+
     // render the snake and food 
-
-
     board.innerHTML = "";
-    skaneArr.forEach((e, index) => {
+    snakeArr.forEach((e, index) => {
         // display the snake 
         snakeElement = document.createElement("div");
         snakeElement.style.gridRowStart = e.y;
@@ -45,10 +83,8 @@ function gameEngine() {
             snakeElement.classList.add("head")
         } else {
             snakeElement.classList.add("snake")
-
         }
         board.appendChild(snakeElement);
-
     });
     // display the food 
     foodElement = document.createElement("div");
@@ -59,16 +95,40 @@ function gameEngine() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 // MAIN LOGIC STRATS HERE 
 window.requestAnimationFrame(main);
+window.addEventListener("keydown", e => {
+    inputDir = {
+        x: 0,
+        y: 1
+    }
+    moveSound.play();
+    switch (e.key) {
+        case "ArrowUp":
+            console.log("ArrowUp");
+            inputDir.x = 0;
+            inputDir.y = -1;
+            break;
+
+        case "ArrowDown":
+            console.log("ArrowDown");
+            inputDir.x = 0;
+            inputDir.y = 1;
+            break;
+
+        case "ArrowRight":
+            console.log("ArrowRight");
+            inputDir.x = 1;
+            inputDir.y = 0;
+            break;
+
+        case "ArrowLeft":
+            console.log("ArrowLeft");
+            inputDir.x = -1;
+            inputDir.y = 0;
+            break;
+
+        default:
+            break;
+    }
+})
