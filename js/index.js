@@ -32,14 +32,14 @@ function main(ctime) {
 
 
 function isCollide(snake) {
-    for (let i = 0; i < i.length; i++) {
-        if (snake[i].x === snake[i].x && snake[i].y === snake[i].y) {
+    for (let i = 1; i < snakeArr.length; i++) {
+        if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
             return true;
         }
     }
     // if you bump into yhe wall 
-    if (snake[0].x >= 18 || snake[0].x <= 0 &&  snake[0].y >= 18 || snake[0].y <= 0) {
-        return true ; 
+    if (snake[0].x >= 18 || snake[0].x <= 0 || snake[0].y >= 18 || snake[0].y <= 0) {
+        return true;
     }
 }
 
@@ -51,18 +51,36 @@ function gameEngine() {
         inputDir = { x: 0, y: 0 };
         alert("Game Over . Press Any Key To Play again!")
         snakeArr = [{ x: 13, y: 15 }];
-        musicSound.play();
+        //  musicSound.play();
         score = 0;
-
     }
-    // if you can eat the food increment the score and regenerate the food 
+    // Check if the snake eats the food
     if (snakeArr[0].y === food.y && snakeArr[0].x === food.x) {
-        foodSound.play();
+        foodSound.play();  // Play the food eating sound
+        score += 1;
+        if (score > hiscore) {
+            hiscoreVal = score
+            localStorage.setItem("hiscore", JSON.stringify(hiscoreVal))
+            hiscorebox.innerHTML = "Hiscore : " + hiscoreVal
+
+
+        }
+        scorebox.innerHTML = "Score :" + score
+
+        // Add a new segment to the snake
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
-        let a = 2;
-        let b = 16;
-        food = { x: Math.round(a + (a - b) * Math.random()), y: Math.round(a + (a - b) * Math.random()) }
+
+        // Set the range for food coordinates
+        let a = 2;  // Minimum coordinate for food
+        let b = 16; // Maximum coordinate for food
+
+        // Regenerate the food at a random position
+        food = {
+            x: Math.round(a + (b - a) * Math.random()),
+            y: Math.round(a + (b - a) * Math.random())
+        };
     }
+
 
     // moving the snake 
     for (let i = snakeArr.length - 2; i >= 0; i--) {
@@ -96,6 +114,15 @@ function gameEngine() {
 
 
 // MAIN LOGIC STRATS HERE 
+let hiscore = localStorage.getItem("hiscore");
+if (hiscore === null) {
+    hiscoreVal = 0;
+    localStorage.setItem("hiscore", JSON.stringify(hiscoreVal))
+}
+else {
+    hiscoreVal = JSON.parse(hiscore);
+    hiscorebox.innerHTML = "Hiscore : " + hiscore
+}
 window.requestAnimationFrame(main);
 window.addEventListener("keydown", e => {
     inputDir = {

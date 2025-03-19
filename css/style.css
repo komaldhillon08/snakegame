@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Inline:opsz,wght@10..72,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans+Mono:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 * {
     margin: 0px;
     padding: 0px;
@@ -14,8 +16,9 @@
     align-items: center;
     justify-content: center;
 }
-#board{
-    background: linear-gradient(rgb(142, 223, 142) ,  rgb(236, 236, 155));
+
+#board {
+    background: linear-gradient(rgb(142, 223, 142), rgb(236, 236, 155));
     width: 90vmin;
     height: 92vmin;
     border: 2px solid black;
@@ -23,12 +26,42 @@
     grid-template-columns: repeat(18, 1fr);
     grid-template-rows: repeat(18, 1fr);
 }
-.head{
-    background-color: red;
+
+.head {
+    background: linear-gradient(green, red, yellow);
+    border: 2ps solid purple;
+    border-radius: 12px;
+    transform: scale(1.02);
+
+
 }
-.snake{
+
+.snake {
     background-color: purple;
+    border: .25vmin solid white;
+    border-radius: 12px;
 }
-.food{
-    background-color: yellow;
+
+.food {
+    background: linear-gradient(red, purple);
+    border: .25vmin solid black;
+    border-radius: 8px;
+
+}
+
+#scorebox{
+    font-size: 40px;
+    position: absolute;
+    top: 9px;
+    right: 350px;
+    font-weight: bold;
+    font-family: "Noto Sans Mono", monospace
+}
+#hiscorebox{
+    font-size: 40px;
+    position: absolute;
+    top: 80px;
+    right: 200px;
+    font-weight: bold;
+    font-family: "Noto Sans Mono", monospace
 }
